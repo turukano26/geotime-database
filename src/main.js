@@ -178,6 +178,56 @@ const DATASETS = {
       `;
     },
   },
+
+  cliopatria: {
+    url: "/cliopatria.geojson",
+    fixWinding: fixWindingByArea,
+    prepare(features) {
+      return features.map((f) => {
+        const p = f.properties;
+        const start = dateFromYear(p.FromYear);
+        const end = dateFromYear(p.ToYear);
+        return {
+          ...f,
+          _startTime: start.getTime(),
+          _endTime: end.getTime(),
+          _key: p.Name + "-" + p.FromYear,
+          _name: p.Name,
+        };
+      });
+    },
+    tooltipHtml(f) {
+      const p = f.properties;
+      const rows = [`<div class="tooltip-name">${p.Name}</div>`];
+      rows.push(`
+        <div class="tooltip-row">
+          <span class="tooltip-label">Period</span>
+          <span>${formatDate(new Date(f._startTime))} — ${formatDate(new Date(f._endTime))}</span>
+        </div>`);
+      if (p.Area) {
+        rows.push(`
+        <div class="tooltip-row">
+          <span class="tooltip-label">Area</span>
+          <span>${d3.format(",")(Math.round(p.Area))} km²</span>
+        </div>`);
+      }
+      if (p.MemberOf) {
+        rows.push(`
+        <div class="tooltip-row">
+          <span class="tooltip-label">Member of</span>
+          <span>${p.MemberOf}</span>
+        </div>`);
+      }
+      if (p.Components) {
+        rows.push(`
+        <div class="tooltip-row">
+          <span class="tooltip-label">Components</span>
+          <span>${p.Components}</span>
+        </div>`);
+      }
+      return rows.join("");
+    },
+  },
 };
 
 // --- Filter features visible at a given Date ---
@@ -375,7 +425,8 @@ async function main() {
     const spanYears =
       maxDate.getUTCFullYear() - minDate.getUTCFullYear();
     let tickInterval;
-    if (spanYears > 1500) tickInterval = d3.utcYear.every(200);
+    if (spanYears > 4000) tickInterval = d3.utcYear.every(500);
+    else if (spanYears > 1500) tickInterval = d3.utcYear.every(200);
     else if (spanYears > 500) tickInterval = d3.utcYear.every(100);
     else if (spanYears > 200) tickInterval = d3.utcYear.every(50);
     else if (spanYears > 50) tickInterval = d3.utcYear.every(10);
