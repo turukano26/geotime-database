@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>GeoTime — Historical Borders</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="controls">
+      <h1 id="title">GeoTime</h1>
+      <div class="control-group">
+        <label for="projection-select">Projection</label>
+        <select id="projection-select">
+          <option value="naturalEarth1" selected>Natural Earth</option>
+          <option value="mercator">Mercator</option>
+          <option value="equalEarth">Equal Earth</option>
+          <option value="orthographic">Orthographic (Globe)</option>
+          <option value="robinson">Robinson</option>
+          <option value="winkelTripel">Winkel Tripel</option>
+          <option value="mollweide">Mollweide</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="dataset-select">Dataset</label>
+        <select id="dataset-select">
+          <option value="cshapes" selected>CShapes 2.0</option>
+          <option value="chgis">CHGIS v6 (China Prefectures)</option>
+        </select>
+      </div>
+      <div class="control-group">
+        <label for="color-select">Color By</label>
+        <select id="color-select" disabled>
+          <option selected>Country Name</option>
+        </select>
+      </div>
+    </div>
+    <div id="map-container">
+      <svg id="map"></svg>
+    </div>
+    <div id="timeline-bar">
+      <svg id="timeline-svg"></svg>
+    </div>
+    <div id="tooltip"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

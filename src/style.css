@@ -1,0 +1,193 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background: #1a1a2e;
+  color: #e0e0e0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  overflow: hidden;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+#controls {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 12px 24px;
+  background: #16213e;
+  border-bottom: 1px solid #0f3460;
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+#title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #e94560;
+  margin-right: 8px;
+  white-space: nowrap;
+}
+
+#timeline-bar {
+  flex-shrink: 0;
+  background: #16213e;
+  border-top: 1px solid #0f3460;
+}
+
+#timeline-svg {
+  display: block;
+  width: 100%;
+}
+
+.timeline-track {
+  fill: none;
+  stroke: #2a2a4a;
+  stroke-width: 2px;
+  stroke-linecap: round;
+}
+
+.timeline-progress {
+  fill: none;
+  stroke: #e94560;
+  stroke-width: 2px;
+  stroke-linecap: round;
+}
+
+.timeline-handle {
+  fill: #e94560;
+  cursor: grab;
+}
+
+.timeline-handle:active {
+  cursor: grabbing;
+}
+
+.timeline-hit-area {
+  fill: transparent;
+  cursor: pointer;
+}
+
+.timeline-axis text {
+  fill: #667788;
+  font-size: 11px;
+}
+
+.timeline-axis line,
+.timeline-axis path {
+  stroke: #2a2a4a;
+}
+
+.timeline-date-label {
+  fill: #e94560;
+  font-size: 13px;
+  font-weight: 700;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  text-anchor: middle;
+  pointer-events: none;
+}
+
+.control-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.control-group label {
+  font-size: 13px;
+  color: #8899aa;
+  white-space: nowrap;
+}
+
+.control-group select {
+  background: #1a1a2e;
+  color: #e0e0e0;
+  border: 1px solid #0f3460;
+  border-radius: 4px;
+  padding: 5px 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.control-group select:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+#map-container {
+  flex: 1;
+  overflow: hidden;
+  position: relative;
+}
+
+#map {
+  width: 100%;
+  height: 100%;
+}
+
+.country {
+  stroke: #16213e;
+  stroke-width: 0.5px;
+  cursor: pointer;
+  transition: fill-opacity 0.1s;
+}
+
+.country:hover {
+  fill-opacity: 1;
+  stroke: #e94560;
+  stroke-width: 1.5px;
+}
+
+.graticule {
+  fill: none;
+  stroke: #2a2a4a;
+  stroke-width: 0.4px;
+}
+
+.outline {
+  fill: none;
+  stroke: #0f3460;
+  stroke-width: 1px;
+}
+
+.land-background {
+  fill: #0d1b2a;
+}
+
+#tooltip {
+  position: absolute;
+  pointer-events: none;
+  background: #16213e;
+  border: 1px solid #0f3460;
+  border-radius: 6px;
+  padding: 10px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #e0e0e0;
+  display: none;
+  z-index: 100;
+  max-width: 320px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+#tooltip .tooltip-name {
+  font-weight: 700;
+  font-size: 15px;
+  color: #e94560;
+  margin-bottom: 4px;
+}
+
+#tooltip .tooltip-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+#tooltip .tooltip-label {
+  color: #8899aa;
+}
