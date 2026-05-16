@@ -40,8 +40,7 @@ function reverseRings(f) {
   return { ...f, geometry: geom };
 }
 
-// For large polygons (CShapes countries): use d3.geoArea heuristic.
-// If D3 computes area > half the sphere, the winding is inverted.
+// For CShapes countries: if D3 computes area > half the sphere, winding is wrong.
 function fixWindingByArea(features) {
   return features.map((f) => {
     if (d3.geoArea(f) > 2 * Math.PI) return reverseRings(f);
@@ -49,10 +48,14 @@ function fixWindingByArea(features) {
   });
 }
 
-// For small polygons (CHGIS prefectures) that are all known-CW:
-// reverse every feature unconditionally.
-function reverseAllWinding(features) {
-  return features.map(reverseRings);
+// For sub-national features (CHGIS prefectures): no single prefecture should
+// exceed ~0.5 steradians (~4% of the sphere). Anything larger means D3's
+// spherical interpretation flipped the polygon inside-out.
+function fixWindingStrict(features) {
+  return features.map((f) => {
+    if (d3.geoArea(f) > 0.5) return reverseRings(f);
+    return f;
+  });
 }
 
 // --- Date helpers ---
@@ -137,7 +140,7 @@ const DATASETS = {
 
   chgis: {
     url: "/chgis-v6-prefectures.geojson",
-    fixWinding: fixWindingByArea, // winding pre-fixed in export, this is a safety net
+    fixWinding: fixWindingStrict,
     prepare(features) {
       return features.map((f) => {
         const p = f.properties;
